@@ -55,10 +55,10 @@ export function renderPostsPageComponent({ appEl }) {
     element: document.querySelector(".header-container"),
   });
 
-  for (let userEl of document.querySelectorAll(".post-header")) {
-    userEl.addEventListener("click", () => {
+  for (let userElement of document.querySelectorAll(".post-header")) {
+    userElement.addEventListener("click", () => {
       goToPage(USER_POSTS_PAGE, {
-        userId: userEl.dataset.userId,
+        userId: userElement.dataset.userId,
       });
     });
   }
