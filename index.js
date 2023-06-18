@@ -68,29 +68,47 @@ export const goToPage = (newPage, data) => {
 
     if (newPage === USER_POSTS_PAGE) {
       // TODO: реализовать получение постов юзера из API
-      
       page = LOADING_PAGE;
       renderApp();
+      console.log("Открываю страницу пользователя: ", data.userId);
       return getUserPosts({
         token: getToken(),
         id: data.userId
-      }).then(newPosts => {
+      }).then((newPosts) => {
+      posts = newPosts;
+      page = USER_POSTS_PAGE;
+      
+      renderApp();
+      })
+      /*
+      //renderApp();
+      return getUserPosts({
+        token: getToken(),
+        id: data.userId
+      }).then((newPosts) => {
         page = USER_POSTS_PAGE;
         posts = newPosts;
         renderApp();
       });
       //console.log("Открываю страницу пользователя: ", data.userId);
       
-    }
-
-    //page = newPage;
-    //renderApp();
-
-    //return;
+    }*/
   }
+    page = newPage;
+    renderApp();
 
-  throw new Error("страницы не существует");
+    return;
+}
+  /*if (page === USER_POSTS_PAGE) {
+    return renderPostsPageComponent({
+      appEl
+    });
+  }*/
+
+  //throw new Error("страницы не существует");
+  //goToPage(AUTH_PAGE);
 };
+
 
 const renderApp = () => {
   const appEl = document.getElementById("app");
@@ -136,7 +154,7 @@ const renderApp = () => {
 
   if (page === POSTS_PAGE) {
     return renderPostsPageComponent({
-      appEl,
+      appEl
     });
   }
 
@@ -149,3 +167,55 @@ const renderApp = () => {
 };
 
 goToPage(POSTS_PAGE);
+
+/*export const initLikeButtonListeners = () => {
+  const likesElements = document.querySelectorAll(".like-button");
+//console.log(likesElements);
+  for (const likeElement of likesElements) {
+    //console.log(likeElement);
+    const index = likeElement.dataset.index;
+    likeElement.addEventListener ("click", () => {
+      //let userId = posts[index].id;
+      let idPost = posts[index].id;
+      
+      //const likes = likeElement.dataset.likes
+      //console.log(likes);
+      
+      //console.log(index);
+
+      if(posts[index].isLiked) {
+        posts[index].isLiked = !posts[index].isLiked;
+        posts[index].likes -= 1;
+        putDislike({ idPost, token: getToken() })
+        .then(() => {
+          if (page === POSTS_PAGE) {
+            return getPosts({ token: getToken() })
+            .then((newPosts) => {
+              page === POSTS_PAGE;
+              posts = newPosts;
+              renderApp(); 
+            });
+          } else {
+            return getUserPosts({ userId, token: getToken() })
+            .then((newPosts) => {
+              page === USER_POSTS_PAGE;
+              posts = newPosts;
+              renderApp(); 
+            })
+          };
+        });    
+      } else {
+        
+
+        
+        posts[index].isLiked = !posts[index].isLiked;
+        posts[index].likes += 1;
+        putLike({ idPost, token: getToken() })
+        renderApp();
+        initLikeButtonListeners();
+      }
+
+    });
+  };
+};  
+initLikeButtonListeners();*/
