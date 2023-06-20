@@ -110,29 +110,32 @@ export function getUserPosts({ token, id }) {
   });
 }
 
-/*export function putLike ({ token, idPost }) {
-  return fetch(postsHost + "/" + id + "/like", {
+export function putLike({ token, id }) {
+  return fetch(`${postsHost}/${id}/like`, {
     method: "POST",
     headers: {
       Authorization: token
-    },
-    body: JSON.stringify({
-      idPost,
-    }),
-  })
-  
-};
+    }
+  }).then(response => {
+    if (response.status === 401) {
+      throw new Error('Только авторизованные пользователи могут лайкнуть пост');
+    }
 
-export function putDislike ({ token, idPost }) {
-  return fetch(postsHost + "/" + id + "/dislike", {
+    return response.json();
+  }).then(data => data.post);
+}
+
+export function putDislike({ token, id }) {
+  return fetch(`${postsHost}/${id}/dislike`, {
     method: "POST",
     headers: {
       Authorization: token
-    },
-    body: JSON.stringify({
-     idPost, 
-    }),
-    
-  })
-  
-};*/
+    }
+  }).then(response => {
+    if (response.status === 401) {
+      throw new Error('Вы не авторизованы! Вы не можете поставить лайк!');
+    }
+
+    return response.json();
+  }).then(data => data.post);
+}

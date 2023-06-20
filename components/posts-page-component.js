@@ -1,7 +1,7 @@
 import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
-import { posts, goToPage } from "../index.js";
-
+import { posts, goToPage, renderApp, getToken } from "../index.js";
+import { putDislike, putLike } from "../api.js";
 export function renderPostsPageComponent({ appEl }) {
   // TODO: реализовать рендер постов из api
   const postsHtml = posts.map((post) => {
@@ -22,7 +22,12 @@ export function renderPostsPageComponent({ appEl }) {
         }">
       </button>
       <p class="post-likes-text">
-        Нравится: <strong>${post.likes.length}</strong>
+        Нравится: <strong>${post.likes.length > 0 ? post.likes[post.likes.length - 1].name : '0'
+      }</strong> ${
+        post.likes.length > 1 ? `и <strong>еще ${
+          post.likes.length - 1
+        }</strong>` : ''
+      }
       </p>
     </div>
     <p class="post-text">
@@ -54,12 +59,41 @@ export function renderPostsPageComponent({ appEl }) {
   renderHeaderComponent({
     element: document.querySelector(".header-container"),
   });
-
+ // initLikeButtonListeners();
   for (let userElement of document.querySelectorAll(".post-header")) {
     userElement.addEventListener("click", () => {
       goToPage(USER_POSTS_PAGE, {
         userId: userElement.dataset.userId,
       });
     });
-  }
+  };
+
+  document.querySelectorAll('.like-button').forEach((likeElement, index) => {   
+    
+          likeElement.addEventListener ("click", () => {
+            
+    if (posts[index].isLiked) {
+      putDislike({
+        token: getToken(),
+        id: posts[index].id
+      }).then(newLike => {
+        posts.splice(index, 1, newLike);
+    
+        renderApp();
+      }).catch(error => alert(error.message));
+    } else {
+      putLike({
+        token: getToken(),
+        id: posts[index].id
+      }).then(newLike => {
+        posts.splice(index, 1, newLike);
+    
+        renderApp();
+      }).catch(error => alert(error.message));
+    }
+    });
+    
+      });
 }
+
+
