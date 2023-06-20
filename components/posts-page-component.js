@@ -2,9 +2,13 @@ import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
 import { posts, goToPage, renderApp, getToken } from "../index.js";
 import { putDislike, putLike } from "../api.js";
+import { formatDistance } from "date-fns";
+import { ru } from 'date-fns/locale'
+
 export function renderPostsPageComponent({ appEl }) {
   // TODO: реализовать рендер постов из api
   const postsHtml = posts.map((post) => {
+    const createDate = formatDistance(new Date(post.createdAt), Date.now(), { locale: ru });
     return `<li class="post">
     <div class="post-header" data-user-id="${post.user.id}">
       <img src="${post.user.imageUrl}" class="post-header__user-image">
@@ -35,7 +39,7 @@ export function renderPostsPageComponent({ appEl }) {
       ${post.description}
     </p>
     <p class="post-date">
-        ${post.createdAt}
+        ${createDate} назад
     </p>
   </li>`;
 }).join('');
