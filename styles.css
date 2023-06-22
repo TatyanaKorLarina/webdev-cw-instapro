@@ -181,7 +181,7 @@
   align-items: center;
 }
 
-.file-upload-image {
+.file-upload-input {
   width: 100px;
   height: 100px;
   object-fit: cover;
@@ -196,3 +196,4 @@
   width: 100%;
   text-align: center;
 }
+
