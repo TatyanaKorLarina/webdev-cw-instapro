@@ -1,7 +1,4 @@
-/* 
-  Это стили Дизайн системы, сквозные стили для элементов интерфейса
-  всего приложения: шрифты, кнопки, инпуты и так далее
-*/
+
 
 @font-face {
   font-family: "StratosSkyeng";
@@ -20,7 +17,7 @@
 }
 
 html {
-  /* скрывает скролбары в firefox */
+
   scrollbar-width: none;
 }
 
@@ -33,7 +30,7 @@ body {
   line-height: 18px;
 }
 
-/* скрывает скролбары в chrome */
+
 body::-webkit-scrollbar {
   display: none;
 }
@@ -122,7 +119,7 @@ strong {
   font-weight: 500;
 }
 
-/** Анимация загрузки **/
+
 .loader {
   display: inline-block;
   position: relative;
